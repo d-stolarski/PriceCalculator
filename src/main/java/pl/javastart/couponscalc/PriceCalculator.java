@@ -60,25 +60,6 @@ public class PriceCalculator {
                     }
                 }
             }
-
-
-            Category category = coupons.get(0).getCategory();
-            double sumPrice = 0.0;
-            double categoryPrice = 0.0;
-            double noCategoryPrice = 0.0;
-            for (Product prod : products) {
-                if (prod.getCategory().equals(category)) {
-                    categoryPrice += prod.getPrice() - (prod.getPrice() * coupons.get(0).getDiscountValueInPercents() / 100);
-                } else {
-                    noCategoryPrice += prod.getPrice();
-                }
-
-            }
-            sumPrice = categoryPrice + noCategoryPrice;
-
-
-            return Math.round(sumPrice * 100.0) / 100.0;
-
         }
         return 2.0;
     }
