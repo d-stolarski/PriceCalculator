@@ -109,7 +109,7 @@ public class PriceCalculatorTest {
         double result = priceCalculator.calculatePrice(products, coupons);
 
         //then
-        assertThat(result, is(8.30));
+        assertThat(result, is(96.00));
 
     }
 }
