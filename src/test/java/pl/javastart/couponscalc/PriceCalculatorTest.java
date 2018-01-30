@@ -14,12 +14,10 @@ public class PriceCalculatorTest {
     public void shouldReturnZeroForNoProducts() {
         // given
         PriceCalculator priceCalculator = new PriceCalculator();
-
         // when
         double result = priceCalculator.calculatePrice(null, null);
-
         // then
-        assertThat(result, is(0.));
+        assertThat(result, is(0.0));
     }
 
     @Test
@@ -55,5 +53,63 @@ public class PriceCalculatorTest {
         assertThat(result, is(4.79));
     }
 
+    @Test
+    public void shouldReturnPriceWhenCouponHaveNoCategory(){
 
+        // given
+        PriceCalculator priceCalculator = new PriceCalculator();
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("Masło", 5.99, Category.FOOD));
+        products.add(new Product("Sweter", 54.44, Category.HOME));
+        products.add(new Product("Dżem", 1.89, Category.FOOD));
+
+        List<Coupon> coupons = new ArrayList<>();
+        coupons.add(new Coupon(null, 10));
+
+        // when
+        double result = priceCalculator.calculatePrice(products, coupons);
+
+        // then
+        assertThat(result, is(56.09));
+    }
+
+    @Test
+    public void shouldReturnPriceForCouponWithCategory(){
+
+        //given
+        PriceCalculator priceCalculator = new PriceCalculator();
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("Odświeżacz", 4.00, Category.HOME));
+        products.add(new Product("Sweter", 3.00, Category.HOME));
+        products.add(new Product("Dżem", 2.00, Category.FOOD));
+
+        List<Coupon> coupons = new ArrayList<>();
+        coupons.add(new Coupon(Category.HOME, 10));
+
+        //when
+        double result = priceCalculator.calculatePrice(products, coupons);
+
+        //then
+        assertThat(result, is(8.30));
+    }
+
+    @Test
+    public void shouldReturnPriceForCouponWithBetterDiscount(){
+        //given
+        PriceCalculator priceCalculator = new PriceCalculator();
+        List<Product> products = new ArrayList<>();
+        products.add(new Product("Masło", 6.00, Category.FOOD));
+        products.add(new Product("Opony", 100.00, Category.CAR));
+
+        List<Coupon> coupons = new ArrayList<>();
+        coupons.add(new Coupon(Category.FOOD, 50));
+        coupons.add(new Coupon(Category.CAR, 10));
+
+        //when
+        double result = priceCalculator.calculatePrice(products, coupons);
+
+        //then
+        assertThat(result, is(8.30));
+
+    }
 }
